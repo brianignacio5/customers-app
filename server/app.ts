@@ -1,29 +1,33 @@
 import express from "express";
 import { connectToDb } from "./dbConnection";
 import * as bodyParser from "body-parser";
+import loggerMiddleWare from "./middleware/logger";
+import IController from "./controllers/IController";
 
 class App {
     private app: express.Application;
 
-    constructor() {
+    constructor(controllers: IController[]) {
         this.app = express();
         this.config();
-        this.setRoutes();
         this.setMiddlewares();
+        this.setRoutes(controllers);
     }
-
+    
     config() {
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({ extended: false }));
         connectToDb();
     }
 
-    setRoutes() {
-
+    setRoutes(controllers: IController[]) {
+        for (const controller of controllers) {
+            this.app.use("/",  controller.router);
+        }
     }
 
     setMiddlewares() {
-
+        this.app.use(loggerMiddleWare);
     }
 
     start(port: number) {
