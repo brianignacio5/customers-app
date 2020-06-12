@@ -2,6 +2,7 @@ import express from "express";
 import { connectToDb } from "./dbConnection";
 import * as bodyParser from "body-parser";
 import loggerMiddleWare from "./middleware/logger";
+import errorMiddleWare from "./middleware/error";
 import IController from "./controllers/IController";
 
 class App {
@@ -28,6 +29,7 @@ class App {
 
     setMiddlewares() {
         this.app.use(loggerMiddleWare);
+        this.app.use(errorMiddleWare);
     }
 
     start(port: number) {

@@ -1,18 +1,6 @@
 import { Document, model, Schema } from "mongoose";
-
-export interface Customer {
-    address: string;
-    city: string;
-    country: string;
-    disRef: string;
-    email: string;
-    name: string;
-    notes: string;
-    payment: string;
-    telephone: number;
-    type: string;
-    zip: number;
-}
+import { Customer } from "../types/customer";
+import { customerType } from "../types/customerType";
 
 const customersSchema = new Schema({
     address: String,
@@ -26,8 +14,8 @@ const customersSchema = new Schema({
     telephone: Number,
     type: {
         type: String,
-        enum: ["Lead", "Active", "Inactive"],
-        default: "Inactive"
+        enum: Object.values(customerType),
+        default: customerType.Inactive
     },
     zip: Number,
 });

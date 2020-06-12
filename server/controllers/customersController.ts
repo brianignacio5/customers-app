@@ -1,8 +1,9 @@
 import { Router } from "express";
 import IController from "./IController";
 import customerModel from "../models/customers";
-import { Customer } from "../models/customers";
-import { Request, Response } from "express";
+import { Customer } from "../types/customer";
+import { NextFunction, Request, Response } from "express";
+import HttpException from "../types/httpException";
 
 class CustomerController implements IController {
   public path = "/customers";
@@ -17,40 +18,91 @@ class CustomerController implements IController {
     this.router.delete(`${this.path}/:id`, this.deleteCustomer);
   }
 
-  private getAllCustomers = async (req: Request, res: Response) => {
-    const customers = await this.customer.find();
-    res.send(customers);
+  private getAllCustomers = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const customers = await this.customer.find();
+      customers
+        ? res.send(customers)
+        : next(new HttpException(404, new Error("Customer not found")));
+    } catch (error) {
+      next(new HttpException(404, error));
+    }
   };
 
-  private getCustomerById = async (req: Request, res: Response) => {
-    const id = req.params.id;
-    const requestedCustomer = await this.customer.findById(id);
-    res.send(requestedCustomer);
+  private getCustomerById = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const id = req.params.id;
+      const requestedCustomer = await this.customer.findById(id);
+      requestedCustomer
+        ? res.send(requestedCustomer)
+        : next(new HttpException(404, new Error("Customer not found")));
+    } catch (error) {
+      next(new HttpException(404, error));
+    }
   };
 
-  private createCustomer = async (req: Request, res: Response) => {
-    const customerData: Customer = req.body;
-    const newCustomer = new this.customer(customerData);
-    const savedCustomer = await newCustomer.save();
-    res.send(savedCustomer);
+  private createCustomer = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const customerData: Customer = req.body;
+      const newCustomer = new this.customer(customerData);
+      const savedCustomer = await newCustomer.save();
+      savedCustomer
+        ? res.send(savedCustomer)
+        : next(new HttpException(404, new Error("Customer not found")));
+    } catch (error) {
+      next(new HttpException(404, error));
+    }
   };
 
-  private updateCustomer = async (req: Request, res: Response) => {
-    const customerId = req.params.id;
-    const customerData: Customer = req.body;
-    const updatedCustomer = await this.customer.findByIdAndUpdate(
-      customerId,
-      customerData,
-      { new: true }
-    );
-    res.send(updatedCustomer);
+  private updateCustomer = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const customerId = req.params.id;
+      const customerData: Customer = req.body;
+      const updatedCustomer = await this.customer.findByIdAndUpdate(
+        customerId,
+        customerData
+      );
+      updatedCustomer
+        ? res.send(updatedCustomer)
+        : next(new HttpException(404, new Error("Customer not found")));
+    } catch (error) {
+      console.log(error);
+      next(new HttpException(404, error));
+    }
   };
 
-  private deleteCustomer = async (req: Request, res: Response) => {
-    const customerId = req.params.id;
-    const deleteResult = await this.customer.findByIdAndDelete(customerId);
-    res.send(deleteResult);
-  }
+  private deleteCustomer = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const customerId = req.params.id;
+      const deleteResult = await this.customer.findByIdAndDelete(customerId);
+      deleteResult
+        ? res.send(deleteResult)
+        : next(new HttpException(404, new Error("Customer not found")));
+    } catch (error) {
+      console.log(error);
+      next(new HttpException(404, error));
+    }
+  };
 }
 
 export default CustomerController;

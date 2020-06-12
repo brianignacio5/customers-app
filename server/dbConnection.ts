@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
-export function connectToDb() {
-    const mongoUri = process.env.DB_URI || "mongodb://localhost"
+export async function connectToDb() {
+    const mongoUri = process.env.DB_URI || "mongodb://localhost:17569/customersapp"
     try {
-        mongoose.connect(mongoUri, {
+        await mongoose.connect(mongoUri, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });

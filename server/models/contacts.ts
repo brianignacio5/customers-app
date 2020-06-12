@@ -1,14 +1,5 @@
 import { Document, model, Schema } from "mongoose";
-import { Customer } from "./customers";
-
-export interface Contact {
-    customer: Customer;
-    email: string;
-    firstName: string;
-    lastName: string;
-    phone1: number;
-    phone2: number;
-}
+import { Contact } from "../types/contact";
 
 const contactSchema = new Schema({
     customer: {

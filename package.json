@@ -4,7 +4,8 @@
   "description": "master detail customers app with invoices",
   "main": "server.js",
   "scripts": {
-    "test": "tsc"
+    "test": "tsc",
+    "dev-server": "ts-node ./server"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
   "homepage": "https://github.com/brianignacio5/customers-app#readme",
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
+    "ts-node": "^8.10.2",
     "typescript": "^3.9.5",
     "webpack": "^4.43.0"
   },
