@@ -1,7 +1,5 @@
-import { Customer } from "./customers";
-
 export interface Contact {
-  customer: Customer;
+  customer: string;
   email: string;
   firstName: string;
   lastName: string;
