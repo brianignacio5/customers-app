@@ -6,7 +6,7 @@ import errorMiddleWare from "./middleware/error";
 import loggerMiddleWare from "./middleware/logger";
 
 class App {
-  private app: express.Application;
+  public app: express.Application;
 
   constructor(controllers: IController[]) {
     this.app = express();
@@ -18,7 +18,6 @@ class App {
   config() {
     this.app.use(json());
     this.app.use(urlencoded({ extended: false }));
-    connectToDb();
   }
 
   setRoutes(controllers: IController[]) {
@@ -32,7 +31,8 @@ class App {
     this.app.use(errorMiddleWare);
   }
 
-  start(port: number) {
+  async start(port: number) {
+    await connectToDb();
     this.app.listen(port, () => {
       console.log(`App is listening on port ${port}`);
     });

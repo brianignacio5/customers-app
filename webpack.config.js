@@ -1,7 +1,6 @@
 const webpack = require("webpack");
 const path = require("path");
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
-const webpackNodeExternals = require("webpack-node-externals");
 
 var dotenv = require("dotenv").config({
   path: path.resolve(__dirname, ".env"),
@@ -9,11 +8,6 @@ var dotenv = require("dotenv").config({
 const serverConfig = {
   entry: {
     server: path.resolve(__dirname, "server", "index.ts"),
-  },
-  target: "node",
-  output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "[name].js",
   },
   module: {
     rules: [
@@ -24,23 +18,19 @@ const serverConfig = {
       },
     ],
   },
-  resolve: {
-    alias: {
-      vue$: "vue/dist/vue.esm.js",
-    },
-    extensions: [".ts", ".js", ".json"],
+  output: {
+    filename: "[name].js",
+    path: path.resolve(__dirname, "dist"),
   },
   plugins: [
     new webpack.DefinePlugin({
       "process.env": dotenv.parsed,
-    }),
+    })
   ],
-  devServer: {
-    contentBase: path.join(__dirname),
-    compress: true,
-    port: 9000,
+  resolve: {
+    extensions: ["tsx", ".ts", ".js", ".json"],
   },
-  externals: [webpackNodeExternals()]
+  target: "node",
 };
 
 const clientConfig = {
