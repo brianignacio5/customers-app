@@ -1,43 +1,12 @@
 const webpack = require("webpack");
 const path = require("path");
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
-
-var dotenv = require("dotenv").config({
-  path: path.resolve(__dirname, ".env"),
-});
-const serverConfig = {
-  entry: {
-    server: path.resolve(__dirname, "server", "index.ts"),
-  },
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        exclude: /node_modules/,
-        use: ["ts-loader"],
-      },
-    ],
-  },
-  output: {
-    filename: "[name].js",
-    path: path.resolve(__dirname, "dist"),
-  },
-  plugins: [
-    new webpack.DefinePlugin({
-      "process.env": dotenv.parsed,
-    })
-  ],
-  resolve: {
-    extensions: ["tsx", ".ts", ".js", ".json"],
-  },
-  target: "node",
-};
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const clientConfig = {
   entry: {
-    client: path.resolve(__dirname, "client", "main.ts")
+    client: path.resolve(__dirname, "main.ts")
   },
-  target: "node",
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "[name].js",
@@ -82,13 +51,16 @@ const clientConfig = {
     extensions: [".ts", ".js", ".vue", ".json"],
   },
   plugins: [
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new HtmlWebpackPlugin({
+      template: './public/index.html'
+    })
   ],
   devServer: {
-    contentBase: path.join(__dirname),
+    contentBase: [path.join(__dirname, "..", 'public')],
     compress: true,
     port: 9001,
   },
 };
 
-module.exports = [serverConfig, clientConfig];
+module.exports = clientConfig;
