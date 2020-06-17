@@ -85,7 +85,7 @@ class InvoiceController implements IController {
       const id = req.params.id;
       const modifiedInvoice: Invoice = req.body;
       const requestedInvoice = await this.invoice
-        .findByIdAndUpdate(id, modifiedInvoice)
+        .findByIdAndUpdate(id, modifiedInvoice, { new: true })
         .exec();
       requestedInvoice
         ? res.send(requestedInvoice)

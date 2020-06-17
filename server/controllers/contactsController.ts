@@ -97,7 +97,7 @@ class ContactController implements IController {
       const contactId = req.params.id;
       const modifiedContact: Contact = req.body;
       const requestedContact = await this.contact
-        .findByIdAndUpdate(contactId, modifiedContact)
+        .findByIdAndUpdate(contactId, modifiedContact, { new: true })
         .exec();
       requestedContact
         ? res.send(requestedContact)

@@ -1,4 +1,3 @@
-import { json, urlencoded } from "body-parser";
 import express from "express";
 import { connectToDb } from "./dbConnection";
 import IController from "./controllers/IController";
@@ -16,8 +15,8 @@ class App {
   }
 
   config() {
-    this.app.use(json());
-    this.app.use(urlencoded({ extended: false }));
+    this.app.use(express.json());
+    this.app.use(express.urlencoded({ extended: false }));
   }
 
   setRoutes(controllers: IController[]) {

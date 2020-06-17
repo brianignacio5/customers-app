@@ -76,7 +76,8 @@ class CustomerController implements IController {
       const customerData: Customer = req.body;
       const updatedCustomer = await this.customer.findByIdAndUpdate(
         customerId,
-        customerData
+        customerData,
+        { new: true }
       );
       updatedCustomer
         ? res.send(updatedCustomer)
