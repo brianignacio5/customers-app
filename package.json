@@ -25,17 +25,22 @@
   },
   "homepage": "https://github.com/brianignacio5/customers-app#readme",
   "devDependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.32",
+    "@fortawesome/free-solid-svg-icons": "^5.15.1",
+    "@fortawesome/vue-fontawesome": "^2.0.0",
     "@types/chai": "^4.2.11",
     "@types/dotenv": "^8.2.0",
     "@types/mocha": "^7.0.2",
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/eslint-config-typescript": "^5.0.2",
+    "buefy": "^0.9.4",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "css-loader": "^3.6.0",
     "html-webpack-plugin": "^4.3.0",
-    "mocha": "^8.0.1",
-    "sass-loader": "^8.0.2",
+    "mocha": "^8.2.1",
+    "node-sass": "^4.14.1",
+    "sass-loader": "^10.1.0",
     "ts-loader": "^7.0.5",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.5",
@@ -56,6 +61,7 @@
     "express": "^4.17.1",
     "mongodb-client-encryption": "^1.0.1",
     "mongoose": "^5.9.18",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-router": "^3.4.9"
   }
 }
