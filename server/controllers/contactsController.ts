@@ -27,8 +27,13 @@ class ContactController implements IController {
       const contactData: Contact = req.body;
       const newContact = new this.contact(contactData);
       const savedContact = await newContact.save();
-      savedContact
-        ? res.send(savedContact)
+      const savedContactWithCustomer = await savedContact
+        .populate("customer")
+        .execPopulate();
+      savedContactWithCustomer
+        ? res.send(savedContactWithCustomer)
+        : savedContact
+        ? savedContact
         : next(new HttpException(404, new Error("Error creating new contact")));
     } catch (error) {
       next(new HttpException(404, error));
@@ -61,7 +66,7 @@ class ContactController implements IController {
       let contactsQuery = customerId
         ? this.contact.find({ customer: customerId })
         : this.contact.find();
-      const contacts = await contactsQuery.exec();
+      const contacts = await contactsQuery.populate("customer").exec();
       contacts
         ? res.send(contacts)
         : next(new HttpException(404, new Error("Error getting contacts")));
@@ -77,7 +82,10 @@ class ContactController implements IController {
   ) => {
     try {
       const contactId = req.params.id;
-      const requestedContact = await this.contact.findById(contactId).exec();
+      const requestedContact = await this.contact
+        .findById(contactId)
+        .populate("customer")
+        .exec();
       requestedContact
         ? res.send(requestedContact)
         : next(

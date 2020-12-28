@@ -27,8 +27,13 @@ class InvoiceController implements IController {
       const invoiceData: Invoice = req.body;
       const newInvoice = new this.invoice(invoiceData);
       const savedInvoice = await newInvoice.save();
-      savedInvoice
-        ? res.send(savedInvoice)
+      const savedInvoiceWithCustomer = await savedInvoice
+        .populate("customer")
+        .execPopulate();
+      savedInvoiceWithCustomer
+        ? res.send(savedInvoiceWithCustomer)
+        : savedInvoice
+        ? savedInvoice
         : next(new HttpException(404, new Error("Invoice was not created")));
     } catch (error) {
       next(new HttpException(404, error));
@@ -51,7 +56,7 @@ class InvoiceController implements IController {
       if (req.body.toDate) {
         invoiceQuery = invoiceQuery.where("date").lte(req.body.toDate);
       }
-      const invoices = await invoiceQuery.exec();
+      const invoices = await invoiceQuery.populate("customer").exec();
       invoices
         ? res.send(invoices)
         : next(new HttpException(404, new Error("Invoices not found")));
@@ -67,7 +72,10 @@ class InvoiceController implements IController {
   ) => {
     try {
       const id = req.params.id;
-      const requestedInvoice = await this.invoice.findById(id).exec();
+      const requestedInvoice = await this.invoice
+        .findById(id)
+        .populate("customer")
+        .exec();
       requestedInvoice
         ? res.send(requestedInvoice)
         : next(new HttpException(404, new Error("Invoice not found")));

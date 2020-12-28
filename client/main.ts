@@ -1,7 +1,6 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import Buefy from "buefy";
-// import "buefy/dist/buefy.css";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faBox,
@@ -13,6 +12,7 @@ import {
   faShip,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import store from "./store";
 
 library.add(faBox, faCog, faHome, faMoneyBill, faQuestionCircle, faUser, faShip);
 Vue.component("font-awesome-icon", FontAwesomeIcon);
@@ -38,4 +38,5 @@ const router = new VueRouter({
 new Vue({
   render: (h) => h(App),
   router,
+  store,
 }).$mount("#app");
