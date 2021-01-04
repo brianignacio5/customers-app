@@ -1,7 +1,28 @@
 <template>
   <section class="section home">
-    <h1 class="title is-1">Hello, {{ customerName }}</h1>
-    <h2 class="subtitle is-5">Let's get to work! Here's what we need today.</h2>
+    <h1 class="title">Hello, {{ customerName }}</h1>
+    <h2 class="subtitle">The journey of a thousand miles begins with one step.</h2>
+
+    <table class="table is-fullwidth">
+      <thead>
+        <tr>
+          <th>OrderID</th>
+          <th>Customer</th>
+          <th>Invoice Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="invoice in invoices" :key="invoice._id">
+          <td><p>{{invoice._id}}</p></td>
+          <td><p>{{invoice.customer ? invoice.customer.name : ""}}</p></td>
+          <td><p>{{invoice.date}}</p></td>
+          <td><p>{{invoice.status}}</p></td>
+          <td>Actions</td>
+        </tr>
+      </tbody>
+    </table>
     <div class="card-list">
       <InvoiceCard
         class="invoice-card"
@@ -46,12 +67,8 @@ export default class Home extends Vue {
   margin: auto;
   padding: 5em;
 
-  .title {
-    color: #007d92;
-  }
-
   .card-list {
-    padding: 0.1em;
+    box-shadow: 0px 1px 0px rgba(63, 63, 68, 0.05), 0px 1px 3px rgba(63, 63, 68, 0.15);
   }
 
   .invoice-card {

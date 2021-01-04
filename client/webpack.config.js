@@ -26,6 +26,13 @@ const clientConfig = {
         ],
       },
       {
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          esModule: false,
+        }
+      },
+      {
         test: /\.vue$/,
         use: "vue-loader",
         exclude: /node_modules/,

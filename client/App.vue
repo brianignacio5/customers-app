@@ -1,36 +1,36 @@
 <template>
-  <div class="hero is-fullheight">
-    <div class="hero-body">
-      <div class="level">
-        <div class="level-left">
-          <b-menu>
-            <h1 class="title">LOGO</h1>
-            <b-menu-list>
-              <b-menu-item icon="home" label="Home"></b-menu-item>
-              <b-menu-item icon="user" label="Clients"></b-menu-item>
-              <b-menu-item icon="question-circle" label="Billing"></b-menu-item>
-              <b-menu-item icon="box" label="Products"></b-menu-item>
-              <b-menu-item icon="money-bill" label="Inquiries"></b-menu-item>
-              <b-menu-item icon="ship" label="Orders"></b-menu-item>
-              <b-menu-item icon="cog" label="Settings"></b-menu-item>
-            </b-menu-list>
-          </b-menu>
-        </div>
-        <div class="level-right">
-          <transition name="fade" mode="out-in">
-            <router-view></router-view>
-          </transition>
+  <div>
+    <section class="hero is-fullheight-with-navbar">
+      <Navbar />
+      <div class="hero-body">
+        <div class="container">
+          <div class="main-content columns is-fullheight">
+            <div class="column is-12">
+              <transition name="fade" mode="out-in">
+                <router-view></router-view>
+              </transition>
+            </div>
+            <div class="column is-2">
+              <SideMenu />
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { Component } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
+import Navbar from "./components/CustomNavBar.vue";
+import SideMenu from "./components/SideMenu.vue";
 
-@Component
+@Component({
+  components: {
+    Navbar,
+    SideMenu,
+  },
+})
 export default class App extends Vue {
   private msg = "Hello";
 }
@@ -47,16 +47,17 @@ export default class App extends Vue {
 
 .level {
   width: 100%;
-  .level-right {
+  margin: 1em;
+  .level-left {
     width: 90%;
   }
 }
 .menu-list {
   a {
-    color: $white;
+    color: #66788a;
   }
   a:hover {
-    background-color: #26b5ce;
+    background-color: $primary;
   }
 }
 
