@@ -4,6 +4,7 @@ export interface Invoice {
   customer: Customer;
   date: Date;
   dueDate: Date;
+  orderId: string;
   orderStatus: string;
   status: string;
 }

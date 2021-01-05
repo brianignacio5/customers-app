@@ -1,5 +1,5 @@
 <template>
-  <b-navbar class="is-fixed-top navbar-primary">
+  <b-navbar class="is-primary">
     <template slot="brand">
       <b-navbar-item tag="router-link" :to="{ path: '/' }">
         <img src="../assets/logo.png" alt="logo" width="96" height="28" />
@@ -28,8 +28,4 @@ export default class Navbar extends Vue {
 </script>
 
 <style lang="scss" scoped>
-@import "../style";
-.hero .navbar-primary {
-  background-color: $primary;
-}
 </style>

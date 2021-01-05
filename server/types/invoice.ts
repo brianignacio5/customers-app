@@ -3,6 +3,7 @@ export interface Invoice {
   customer: string;
   date: Date;
   dueDate: Date;
+  orderId: string;
   orderStatus: string;
   status: string;
 }

@@ -10,6 +10,7 @@ const invoiceSchema = new Schema({
   },
   date: Date,
   dueDate: Date,
+  orderId: String,
   orderStatus: String,
   status: {
     type: String,

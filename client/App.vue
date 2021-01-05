@@ -1,22 +1,18 @@
 <template>
   <div>
-    <section class="hero is-fullheight-with-navbar">
-      <Navbar />
-      <div class="hero-body">
-        <div class="container">
-          <div class="main-content columns is-fullheight">
-            <div class="column is-12">
-              <transition name="fade" mode="out-in">
-                <router-view></router-view>
-              </transition>
-            </div>
-            <div class="column is-2">
-              <SideMenu />
-            </div>
-          </div>
+    <Navbar />
+    <div class="section">
+      <div class="level">
+        <div class="level-left">
+          <transition name="fade" mode="out-in">
+            <router-view></router-view>
+          </transition>
+        </div>
+        <div class="level-right">
+          <SideMenu />
         </div>
       </div>
-    </section>
+    </div>
   </div>
 </template>
 
@@ -45,12 +41,8 @@ export default class App extends Vue {
   margin: auto;
 }
 
-.level {
-  width: 100%;
-  margin: 1em;
-  .level-left {
-    width: 90%;
-  }
+.level-left {
+  width: 85%;
 }
 .menu-list {
   a {
@@ -59,6 +51,11 @@ export default class App extends Vue {
   a:hover {
     background-color: $primary;
   }
+}
+
+.create .icon:hover,
+.invoice-row .icon:hover {
+  color: $primary;
 }
 
 .fade-enter-active,

@@ -1,24 +1,46 @@
 import Vue from "vue";
-import Vuex, { ActionTree, MutationTree } from "Vuex";
+import * as Vuex from "Vuex";
 import { Contact, Customer, Invoice } from "../store/types";
 import CustomerService from "../dataService";
-import { invoiceStatus } from "../../server/types/invoiceStatus";
-import { customerType } from "../../server/types/customerType";
 Vue.use(Vuex);
 
 export interface CustomerAppState {
   contacts: Contact[];
   customers: Customer[];
   invoices: Invoice[];
+  selectedInvoice: Invoice;
 }
 
 const state: CustomerAppState = {
   contacts: [],
   customers: [],
   invoices: [],
+  selectedInvoice: {
+    _id: "",
+    amount: 0,
+    customer: {
+      _id: "",
+      address: "",
+      city: "",
+      country: "",
+      disRef: "",
+      email: "",
+      name: "",
+      notes: "",
+      payment: "",
+      telephone: 1111111,
+      type: "",
+      zip: 559
+    },
+    date: new Date(),
+    dueDate: new Date(),
+    orderId: "",
+    orderStatus: "Unpaid",
+    status: "",
+  }
 };
 
-const mutations: MutationTree<CustomerAppState> = {
+const mutations: Vuex.MutationTree<CustomerAppState> = {
   setContacts(state, contacts: Contact[]) {
     state.contacts = contacts;
   },
@@ -26,12 +48,20 @@ const mutations: MutationTree<CustomerAppState> = {
     state.customers = customers;
   },
   setInvoices(state, invoices: Invoice[]) {
-    console.log(invoices);
     state.invoices = invoices;
+    if (invoices.length) {
+      state.selectedInvoice = invoices[0];
+    }
   },
+  setSelectedInvoice(state, invoice: Invoice) {
+    state.selectedInvoice = invoice;
+  },
+  deleteInvoice(state, index: number) {
+    state.invoices.splice(index, 1);
+  }
 };
 
-const actions: ActionTree<CustomerAppState, any> = {
+const actions: Vuex.ActionTree<CustomerAppState, any> = {
   async getContacts(context) {
     let contacts: Contact[], localContacts: string;
     try {
@@ -78,6 +108,31 @@ const actions: ActionTree<CustomerAppState, any> = {
       if (localInvoices && localInvoices.length) {
         localStorage.removeItem("invoices"); 
       }
+    }
+  },
+  async deleteInvoices(context, invoiceId: string) {
+    try {
+      const invoice = await CustomerService.deleteInvoice(invoiceId);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  async updateInvoice(context, invoice: Invoice) {
+    try {
+      let result: Invoice;
+      console.log(invoice._id)
+      if (invoice._id) {
+        result = await CustomerService.updateInvoice(invoice);
+        const indexToReplace = context.state.invoices.findIndex((inv) => {
+          return inv._id === result._id;
+        });
+        context.state.invoices.splice(indexToReplace, 1, result);
+      } else {
+        result = await CustomerService.createInvoice(invoice);
+        context.state.invoices.push(result);
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 }
